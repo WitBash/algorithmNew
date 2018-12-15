@@ -57,11 +57,8 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return true;
         }
-        if (node.left == null || node.right == null) {
-            return false;
-        }
-        int res = node.left.height - node.right.height;
-        if (res < 2 && res > -2) {
+        int res = Math.abs(height(node.left) - height(node.right));
+        if (res < 2 && isBalanced(node.left) && isBalanced(node.right)) {
             return true;
         } else {
             return false;
