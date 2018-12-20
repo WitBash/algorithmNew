@@ -52,12 +52,10 @@ public class ChainingHashTable<Key, Value> {
         if (key == null) {
             throw new IllegalArgumentException();
         }
-        if (size == st.length){
-            Object [] temp = new Object[getPrime(M*2)];
-            for (int i = 0; i <st.length ; i++) {
-                temp[i] = st[i];
-            }
-            st = temp;
+        if (size == st.length) {
+            M = M * 2;
+            size = 0;
+            st = increaseHashTable(M);
         }
         int i = hash(key);
         Node x = (Node) st[i];
@@ -70,6 +68,17 @@ public class ChainingHashTable<Key, Value> {
         }
         st[i] = new Node(key, value, (Node) st[i]);
         size++;
+    }
+
+    private Object[] increaseHashTable(int M) {
+        Object[] temp = new Object[getPrime(M)];
+        for (int i = 0; i < st.length; i++) {
+            Node x = (Node) st[i];
+            int j = hash(x.key);
+            temp[j] = new Node(x.key, x.value, (Node) temp[j]);
+            size++;
+        }
+        return temp;
     }
 
     private int getPrime(int length) {
